@@ -20,13 +20,13 @@ def update_token_list():
     except Exception as e:
         print(f"Error fetching tokens: {e}")
         # Fallback: Load existing file and modify it
-        with open("tokens.json", "r") as f:
+        with open("Hydra-Token-list.json", "r") as f:
             token_list = json.load(f)
         # Example modification: Add a dummy token
         token_list.append({"address": "0xdeadbeef", "symbol": "DUMMY", "decimals": 18})
 
     # Write updated list back to tokens.json
-    with open("tokens.json", "w") as f:
+    with open("Hydra-Token-list.json", "w") as f:
         json.dump(token_list, f, indent=2)
 
 if __name__ == "__main__":
