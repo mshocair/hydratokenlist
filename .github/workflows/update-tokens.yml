@@ -1,0 +1,32 @@
+name: Update Token List
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs every day at midnight UTC (every 24 hours)
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Update tokens.json
+        run: |
+          python update_tokens.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add tokens.json
+          git commit -m "Update tokens.json [automated]"
+          git push
